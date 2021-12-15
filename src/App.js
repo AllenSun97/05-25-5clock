@@ -1,5 +1,4 @@
-import { useState, useReducer } from "react";
-import reducer from "./reducer";
+import { useState } from "react";
 import "./App.css";
 import TimerLengthControl from "./TimerLengthControl";
 
@@ -10,8 +9,7 @@ function App() {
     timerState: "stop",
     timerType: "Session",
   });
-  // const [time, setTime] = useState(1500);
-  const [state, dispatch] = useReducer(reducer, 1500);
+  const [time, setTime] = useState(1500);
 
   const reset = () => {
     setBreakLength(5);
@@ -20,7 +18,7 @@ function App() {
       timerState: "stop",
       timerType: "Session",
     });
-    dispatch({ type: "RESET" });
+    setTime(1500);
     clearInterval(window.TTT);
   };
   const timerControl = () => {
@@ -35,15 +33,13 @@ function App() {
 
   const beginCountDown = () => {
     window.TTT = setInterval(() => {
-      // setTime((time) => time - 1); // (prevState) => {reutrn prevState+1}
+      setTime((time) => time - 1); // (prevState) => {reutrn prevState+1}
       phaseControl();
-      dispatch({ type: "DECREMENT" });
     }, 1000);
   };
 
   const phaseControl = () => {
-    console.log(state);
-    if (state <= 0) {
+    if (time <= 0) {
       console.log("WERE IN");
       if (timer.timerType === "Session") {
         console.log("changing");
@@ -58,11 +54,11 @@ function App() {
   };
   const switchTimer = (num, str) => {
     setTimer({ ...timer, timerType: str });
-    dispatch({ type: "DECREMENT", payload: num });
+    setTime(num);
   };
   const clockify = () => {
-    let minutes = Math.floor(state / 60);
-    let seconds = state - minutes * 60;
+    let minutes = Math.floor(time / 60);
+    let seconds = time - minutes * 60;
     seconds = seconds < 10 ? "0" + seconds : seconds;
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return minutes + ":" + seconds;
@@ -79,7 +75,7 @@ function App() {
           ID="break-label"
           length={breakLength}
           setLength={setBreakLength}
-          setTime={dispatch}
+          setTime={setTime}
           timer={timer}
           timerType={"Break"}
         />
@@ -91,7 +87,7 @@ function App() {
           ID="session-label"
           length={sessionLength}
           setLength={setSessionLength}
-          setTime={dispatch}
+          setTime={setTime}
           timer={timer}
           timerType={"Session"}
         />

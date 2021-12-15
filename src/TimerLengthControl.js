@@ -19,14 +19,14 @@ const TimerLengthControl = ({
     if (timer.timerType === timerType) {
       if (sign === "-" && length !== 1) {
         setLength(length - 1);
-        setTime({ type: "SETSTATE", payload: length * 10 - 10 });
-      } else if (sign === "+" && length !== 10) {
+        setTime(length * 60 - 60);
+      } else if (sign === "+" && length !== 60) {
         setLength(length + 1);
-        setTime({ type: "SETSTATE", payload: length * 10 + 10 });
+        setTime(length * 60 + 60);
       }
     } else if (sign === "-" && length !== 1) {
       setLength(length - 1);
-    } else if (sign === "+" && length !== 10) {
+    } else if (sign === "+" && length !== 60) {
       setLength(length + 1);
     }
   };
