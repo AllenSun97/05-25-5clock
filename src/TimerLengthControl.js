@@ -8,8 +8,8 @@ const TimerLengthControl = ({
   ID,
   length,
   setLength,
+  setTime,
   timer,
-  setTimer,
   timerType,
 }) => {
   const lengthControl = (sign, length, timerType) => {
@@ -19,14 +19,14 @@ const TimerLengthControl = ({
     if (timer.timerType === timerType) {
       if (sign === "-" && length !== 1) {
         setLength(length - 1);
-        setTimer({ ...timer, time: length * 60 - 60 });
-      } else if (sign === "+" && length !== 60) {
+        setTime({ type: "SETSTATE", payload: length * 10 - 10 });
+      } else if (sign === "+" && length !== 10) {
         setLength(length + 1);
-        setTimer({ ...timer, time: length * 60 + 60 });
+        setTime({ type: "SETSTATE", payload: length * 10 + 10 });
       }
     } else if (sign === "-" && length !== 1) {
       setLength(length - 1);
-    } else if (sign === "+" && length !== 60) {
+    } else if (sign === "+" && length !== 10) {
       setLength(length + 1);
     }
   };
