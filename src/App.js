@@ -41,19 +41,22 @@ function App() {
   const beginCountDown = () => {
     window.TTT = setInterval(() => {
       setTime((time) => time - 1); // (prevState) => {reutrn prevState+1}
-      phaseControl();
+      var el = document.getElementById("time-left").innerHTML;
+      phaseControl(el);
     }, 1000);
   };
 
-  const phaseControl = () => {
+  const phaseControl = (el) => {
     // buzzer(time);
-    if (time <= 0) {
+    console.log(el);
+    if (el === "00:00") {
+      clearInterval(window.TTT);
       if (timer.timerType === "Session") {
+        beginCountDown();
         switchTimer(breakLength * 60, "Break");
-        beginCountDown();
       } else {
-        switchTimer(sessionLength * 60, "Session");
         beginCountDown();
+        switchTimer(sessionLength * 60, "Session");
       }
     }
   };
