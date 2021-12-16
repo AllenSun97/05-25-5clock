@@ -43,12 +43,12 @@ function App() {
       setTime((time) => time - 1); // (prevState) => {reutrn prevState+1}
       var el = document.getElementById("time-left").innerHTML;
       phaseControl(el);
+      console.log(timer.timerType);
     }, 1000);
   };
 
   const phaseControl = (el) => {
     // buzzer(time);
-    console.log(el);
     if (el === "00:00") {
       clearInterval(window.TTT);
       if (timer.timerType === "Session") {
@@ -71,6 +71,7 @@ function App() {
     minutes = minutes < 10 ? "0" + minutes : minutes;
     return minutes + ":" + seconds;
   };
+
   return (
     <div>
       <div className="main-title">25 + 5 Clock</div>
