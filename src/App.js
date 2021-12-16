@@ -5,11 +5,11 @@ import TimerLengthControl from "./TimerLengthControl";
 function App() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
+  const [time, setTime] = useState(1500);
   const [timer, setTimer] = useState({
     timerState: "stop",
     timerType: "Session",
   });
-  const [time, setTime] = useState(1500);
 
   const reset = () => {
     setBreakLength(5);
@@ -20,7 +20,14 @@ function App() {
     });
     setTime(1500);
     clearInterval(window.TTT);
+    // this.audioBeep.pause();
+    // this.audioBeep.currentTime = 0;
   };
+  // const buzzer = (_timer) => {
+  //   if (_timer === 0) {
+  //     this.audioBeep.play();
+  //   }
+  // };
   const timerControl = () => {
     if (timer.timerState === "stop") {
       beginCountDown();
@@ -39,15 +46,13 @@ function App() {
   };
 
   const phaseControl = () => {
+    // buzzer(time);
     if (time <= 0) {
-      console.log("WERE IN");
       if (timer.timerType === "Session") {
-        console.log("changing");
-        switchTimer(breakLength * 10, "Break");
+        switchTimer(breakLength * 60, "Break");
         beginCountDown();
       } else {
-        console.log(" NOT changing");
-        switchTimer(sessionLength * 10, "Session");
+        switchTimer(sessionLength * 60, "Session");
         beginCountDown();
       }
     }
@@ -98,7 +103,7 @@ function App() {
       </div>
 
       <div className="timer-control">
-        <button id="start_stop" onClick={timerControl}>
+        <button id="start_stop" onClick={() => timerControl()}>
           <i className="fa fa-play fa-2x" />
           <i className="fa fa-pause fa-2x" />
         </button>
@@ -106,6 +111,14 @@ function App() {
           <i className="fa fa-refresh fa-2x" />
         </button>
       </div>
+      <audio
+        id="beep"
+        preload="auto"
+        // ref={(audio) => {
+        //   this.audioBeep = audio;
+        // }}
+        src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+      />
     </div>
   );
 }
